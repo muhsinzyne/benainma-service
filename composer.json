@@ -1,0 +1,30 @@
+{
+    "name": "muhsinzyne/benainma-service",
+    "description": "Basic Service Provider for Benainma application",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Muhsinzyne\\BenainmaService\\": "src/"
+            
+        },
+        "files": ["helpers/helper.php"]
+    },
+    "authors": [
+        {
+            "name": "Muhsin Zyne",
+            "email": "muhsin.zyne@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MuhsinZyne\\BenainmaService\\BenainmaServiceProvider"
+            ]
+        }
+    }
+}
