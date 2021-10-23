@@ -1,15 +1,15 @@
 <?php
-namespace MuhsinZyne\BenainmaService\Middleware;
+
+namespace SpondonIt\Service\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
-use MuhsinZyne\BenainmaService\Repositories\InitRepository as ServiceRepository;
+use SpondonIt\Service\Repositories\InitRepository as ServiceRepository;
 use Illuminate\Support\Facades\Storage;
 
 class ServiceMiddleware
 {
-    protected $repo;
-    protected $service_repo;
+    protected $repo, $service_repo;
 
     public function __construct(
         ServiceRepository $service_repo
@@ -30,7 +30,6 @@ class ServiceMiddleware
         if ($logout) {
             $request->session()->flush();
             Storage::delete('.logout');
-
             return redirect('/install');
         }
 

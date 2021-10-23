@@ -1,10 +1,12 @@
 <?php
-namespace MuhsinZyne\BenainmaService\Controllers;
 
+namespace SpondonIt\Service\Controllers;
+
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use MuhsinZyne\BenainmaService\Repositories\InitRepository;
-use MuhsinZyne\BenainmaService\Repositories\UpdateRepository;
+use SpondonIt\Service\Repositories\InitRepository;
+use SpondonIt\Service\Repositories\UpdateRepository;
 
 class UpdateController extends Controller
 {
@@ -18,28 +20,25 @@ class UpdateController extends Controller
         InitRepository $init
     ) {
         $this->request = $request;
-        $this->repo    = $repo;
-        $this->init    = $init;
+        $this->repo = $repo;
+        $this->init = $init;
     }
 
     public function index()
     {
         $preRequisite = $this->init->product();
-
         return view('service::update.index', $preRequisite);
     }
 
     public function download()
     {
         $release = $this->repo->download();
-
         return response()->json(['message' => trans('service::install.updated'), 'goto' => route('service.update')]);
     }
 
     public function update()
     {
         $this->repo->update($this->request->all());
-
         return response()->json(['message' => trans('service::install.updated'), 'goto' => route('service.update')]);
     }
 }

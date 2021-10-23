@@ -8,7 +8,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Muhsinzyne\\BenainmaService\\": "src/"
+            "SpondonIt\\Service\\": "src/"
             
         },
         "files": ["helpers/helper.php"]
@@ -23,7 +23,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "MuhsinZyne\\BenainmaService\\BenainmaServiceProvider"
+                "SpondonIt\\Service\\SpondonItServiceProvider"
             ]
         }
     }

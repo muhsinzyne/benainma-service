@@ -1,28 +1,28 @@
 <?php
-namespace MuhsinZyne\BenainmaService\Controllers;
+
+namespace SpondonIt\Service\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use MuhsinZyne\BenainmaService\Repositories\LicenseRepository;
+use SpondonIt\Service\Repositories\LicenseRepository;
 use Toastr;
 
-class LicenseController extends Controller
-{
-    protected $repo;
-    protected $request;
+class LicenseController extends Controller{
+    protected $repo, $request;
 
     public function __construct(LicenseRepository $repo, Request $request)
     {
-        $this->middleware('auth');
-        $this->repo    = $repo;
+         $this->middleware('auth');
+        $this->repo = $repo;
         $this->request = $request;
     }
 
-    public function revoke()
-    {
+
+    public function revoke(){
+
         $ac = Storage::exists('.app_installed') ? Storage::get('.app_installed') : null;
-        if (!$ac) {
+        if(!$ac){
             return redirect()->route('service.install');
         }
 
@@ -31,12 +31,13 @@ class LicenseController extends Controller
         $this->repo->revoke();
 
         return redirect()->route('service.install');
+
     }
 
-    public function revokeModule(Request $request)
-    {
+    public function revokeModule(Request $request){
+
         $ac = Storage::exists('.app_installed') ? Storage::get('.app_installed') : null;
-        if (!$ac) {
+        if(!$ac){
             return redirect()->route('service.install');
         }
 
@@ -46,5 +47,6 @@ class LicenseController extends Controller
         Toastr::success('Your module license revoke successfull');
 
         return redirect()->back();
+
     }
 }

@@ -1,5 +1,6 @@
 <?php
-namespace MuhsinZyne\BenainmaService\Requests;
+
+namespace SpondonIt\Service\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,7 +25,7 @@ class InstallRequest extends FormRequest
     {
         $option = $this->route('option');
 
-        $rules = [];
+        $rules = array();
 
         $rules = [
             'db_port'     => 'required',

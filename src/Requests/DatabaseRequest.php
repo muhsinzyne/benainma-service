@@ -1,5 +1,6 @@
 <?php
-namespace MuhsinZyne\BenainmaService\Requests;
+
+namespace SpondonIt\Service\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,7 +24,6 @@ class DatabaseRequest extends FormRequest
     public function rules()
     {
         $option = $this->route('option');
-
         return [
             'db_port'     => 'required',
             'db_host'     => 'required',

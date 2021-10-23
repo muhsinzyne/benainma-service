@@ -1,7 +1,6 @@
 <?php
-namespace MuhsinZyne\BenainmaService\Console\Commands;
 
-;
+namespace SpondonIt\Service\Console\Commands;;
 
 use Illuminate\Database\Console\Migrations\BaseCommand;
 use Illuminate\Support\Collection;
@@ -53,7 +52,7 @@ class MigrateStatusCommand extends BaseCommand
         $batches = $this->migrator->getRepository()->getMigrationBatches();
 
         if (count($migrations = $this->getStatusFor($ran, $batches)) > 0) {
-            return !in_array(false, $migrations->toArray());
+            return !in_array(false, $migrations->toArray() );
         } else {
             return false;
         }

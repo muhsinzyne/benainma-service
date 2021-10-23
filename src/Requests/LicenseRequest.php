@@ -1,5 +1,6 @@
 <?php
-namespace MuhsinZyne\BenainmaService\Requests;
+
+namespace SpondonIt\Service\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,7 +24,7 @@ class LicenseRequest extends FormRequest
     public function rules()
     {
         return [
-            'access_code'  => 'required',
+            'access_code' => 'required',
             'envato_email' => 'required|email'
         ];
     }

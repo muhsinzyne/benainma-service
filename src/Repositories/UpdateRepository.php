@@ -1,6 +1,6 @@
 <?php
-namespace MuhsinZyne\BenainmaService\Repositories;
 
+namespace SpondonIt\Service\Repositories;
 ini_set('max_execution_time', 0);
 
 use Illuminate\Support\Facades\Artisan;
@@ -28,29 +28,30 @@ class UpdateRepository
 
         $product = gv($info, 'product');
 
-        $build       = $product['next_release_build'];
-        $version     = $product['next_release_version'];
+        $build = $product['next_release_build'];
+        $version = $product['next_release_version'];
         $update_size = $product['next_release_size'];
 
-        if (!$version) {
+        if (! $version) {
             throw ValidationException::withMessages(['message' => trans('service::install.no_update_available')]);
         }
 
-        if (!$update_size) {
+        if (! $update_size) {
             throw ValidationException::withMessages(['message' => trans('service::install.missing_update_file')]);
         }
 
         $ac = Storage::exists('.access_code') ? Storage::get('.access_code') : null;
-        $e  = Storage::exists('.account_email') ? Storage::get('.account_email') : null;
-        $c  = Storage::exists('.app_installed') ? Storage::get('.app_installed') : null;
-        $v  = Storage::exists('.version') ? Storage::get('.version') : null;
+        $e = Storage::exists('.account_email') ? Storage::get('.account_email') : null;
+        $c = Storage::exists('.app_installed') ? Storage::get('.app_installed') : null;
+        $v = Storage::exists('.version') ? Storage::get('.version') : null;
 
-        $url = config('app.verifier') . '/api/cc?a=download&u=' . url('/') . '&ac=' . $ac . '&i=' . config('app.item') . '&e=' . $e . '&c=' . $c . '&v=' . $v;
+        $url = config('app.verifier').'/api/cc?a=download&u='. url('/') .'&ac='.$ac.'&i='.config('app.item').'&e='.$e.'&c='.$c.'&v='.$v;
+
 
         $zipFile = $build;
 
-        $zipResource = fopen($zipFile, 'w');
-        $ch          = curl_init();
+        $zipResource = fopen($zipFile, "w");
+        $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
         curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -65,22 +66,22 @@ class UpdateRepository
         curl_close($ch);
 
         $zip = new \ZipArchive;
-        if (!$zip) {
+        if (! $zip) {
             throw ValidationException::withMessages(['message' => trans('service::install.missing_zip_extension')]);
         }
 
-        if (!File::exists($build)) {
+        if (! File::exists($build)) {
             throw ValidationException::withMessages(['message' => trans('service::install.missing_update_file')]);
         }
 
-        if ($zip->open($build) === true) {
+        if ($zip->open($build) === TRUE) {
             $zip->extractTo(base_path());
             $zip->close();
         } else {
             unlink($build);
-
             throw ValidationException::withMessages(['message' => trans('service::install.zip_file_corrupted')]);
         }
+
 
         Artisan::call('view:clear');
         Artisan::call('cache:clear');
@@ -100,30 +101,31 @@ class UpdateRepository
 
         $product = $info['product'] ?? null;
 
-        $build   = $params['build'] ?? null;
+        $build = $params['build'] ?? null;
         $version = $params['version'] ?? null;
 
-        if (!$product['next_release_version'] || $build != $product['next_release_build'] || $version != $product['next_release_version']) {
+
+        if (! $product['next_release_version'] || $build != $product['next_release_build'] || $version != $product['next_release_version']) {
             throw ValidationException::withMessages(['message' => trans('service::install.invalid_action')]);
         }
 
         $zip = new \ZipArchive;
-        if (!$zip) {
+        if (! $zip) {
             throw ValidationException::withMessages(['message' => trans('service::install.missing_zip_extension')]);
         }
 
-        if (!File::exists($build)) {
+        if (! File::exists($build)) {
             throw ValidationException::withMessages(['message' => trans('service::install.missing_update_file')]);
         }
 
-        if ($zip->open($build) === true) {
+        if ($zip->open($build) === TRUE) {
             $zip->extractTo(base_path());
             $zip->close();
         } else {
             unlink($build);
-
             throw ValidationException::withMessages(['message' => trans('service::install.zip_file_corrupted')]);
         }
+
 
         Artisan::call('view:clear');
         Artisan::call('cache:clear');
@@ -135,19 +137,19 @@ class UpdateRepository
         unlink($build);
     }
 
-    /**
+     /**
     * Mirage tables to database
     */
-    protected function migrateDB()
-    {
+    protected function migrateDB() {
         try {
-            Artisan::call('migrate', ['--force' => true]);
+            Artisan::call('migrate', array('--force' => true));
         } catch (Throwable $e) {
             Log::info($e->getMessage());
             $sql = base_path('database/' . config('spondonit.database_file'));
             if (File::exists($sql)) {
                 DB::unprepared(file_get_contents($sql));
             }
+
         }
-    }
+   }
 }
